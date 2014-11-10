@@ -4,23 +4,30 @@ require '../source/Api.php';
 
 class CSAPITest extends PHPUnit_Framework_TestCase
 {
-  const CLIENT_ID = '3b536f246f52ab62cafc4970960b5558';
-  const APP_ID = '101252815b8736362b5bd9f21eb6ce35';
-
   protected $api;
+  protected $client_id;
+  protected $app_id;
+
+  public function __construct()
+  {
+    require 'config.php';
+
+    $this->client_id = $config['client_id'];
+    $this->app_id = $config['app_id'];
+  }
 
   public function setUp()
   {
-    $this->api = new CSAPI(self::CLIENT_ID, self::APP_ID, 'dev');
+    $this->api = new CSAPI($this->client_id, $this->app_id, 'dev');
   }
 
   public function testInit()
   {
     // Check the mode settings.
-    $this->api = new CSAPI(self::CLIENT_ID, self::APP_ID);
+    $this->api = new CSAPI($this->client_id, $this->app_id);
     $this->assertEquals($this->api->host, 'https://api.commonsense.org');
 
-    $this->api = new CSAPI(self::CLIENT_ID, self::APP_ID, 'dev');
+    $this->api = new CSAPI($this->client_id, $this->app_id, 'dev');
     $this->assertEquals($this->api->host, 'https://api-dev.commonsense.org');
   }
 
