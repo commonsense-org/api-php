@@ -62,13 +62,14 @@ class CommonSenseApi {
     if ($suffix === 'list') {
       // Methods that have a suffix of _list().
       $type = $matches[1];
-      return $this->get_list($type, $args);
+      $options = count($args) > 0 && $args[0] ? $args[0] : array();
+      return $this->get_list($type, $options);
     }
     elseif ($suffix === 'item') {
       // Methods that have a suffix of _item().
       $type = $matches[1];
       $id = array_shift($args);
-      $options = count($args) > 0 ? $args[0] : array();
+      $options = count($args) > 0 && $args[0] ? $args[0] : array();
       return $this->get_item($type, $id, $options);
     }
     elseif (method_exists($this, $name)) {
@@ -89,7 +90,7 @@ class CommonSenseApi {
     static $instance = array();
 
     if (!array_key_exists($class_name, $instance)) {
-      $instance[$class_name] = new $class_name($api->client_id, $api->app_id);
+      $instance[$class_name] = new $class_name($api->client_id, $api->app_id, $api->is_dev);
     }
 
     return $instance[$class_name];
