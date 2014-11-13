@@ -121,7 +121,7 @@ class CommonSenseApiTest extends CommonSenseApiBaseTest
   }
 
   /**
-   * Tests for get_list().
+   * Tests for get_item().
    */
   public function testGetItem()
   {

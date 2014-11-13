@@ -43,6 +43,41 @@ class CommonSenseApi {
   }
 
   /**
+   * Handles magic methods for list and item API calls.
+   *
+   * The following patterns are defined for calling the API list and item calls.
+   *   <type>_list($options)
+   *   <type>_item($id, $options)
+   *
+   * where <type> is the API endpoint.
+   *
+   * Example:
+   *   URL: http://api.commonsense.org/v3/education/products/...
+   *   Magic methods: products_list($options) and products_item($id, $options)
+   */
+  public function __call($name, $args) {
+    preg_match('/([a-zA-Z_]+)_([a-zA-Z]+)/', $name, $matches);
+    $suffix = $matches[count($matches) - 1];
+
+    if ($suffix === 'list') {
+      // Methods that have a suffix of _list().
+      $type = $matches[1];
+      return $this->get_list($type, $args);
+    }
+    elseif ($suffix === 'item') {
+      // Methods that have a suffix of _item().
+      $type = $matches[1];
+      $id = array_shift($args);
+      $options = count($args) > 0 ? $args[0] : array();
+      return $this->get_item($type, $id, $options);
+    }
+    elseif (method_exists($this, $name)) {
+      // Call the existing method.
+      return $this->{$name}();
+    }
+  }
+
+  /**
    * Returns a singleton instance of this class.
    *
    * @param string
@@ -62,6 +97,13 @@ class CommonSenseApi {
 
   /**
    * Make a request to the API.
+   *
+   * @param string
+   *   the URL path of the API endpoint.
+   * @param array
+   *   filter options that vary depending on the API endpoint.
+   * @return object
+   *   the JSON response data converted into a native object.
    */
   public function request($path, $options = array()) {
     // Generate query params.
