@@ -18,4 +18,8 @@ class CommonSenseApiBaseTest extends PHPUnit_Framework_TestCase
   {
     $this->api = new CommonSenseApi($this->client_id, $this->app_id, TRUE);
   }
+
+  public function testNothing() {
+    // At least 1 test is needed to not fail this test class.
+  }
 }

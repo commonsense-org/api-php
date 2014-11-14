@@ -1,7 +1,7 @@
 <?php
 
-require dirname(__FILE__) . '/../BaseTest.php';
-require dirname(__FILE__) . '/../../source/Api.php';
+require_once dirname(__FILE__) . '/../BaseTest.php';
+require_once dirname(__FILE__) . '/../../source/Api.php';
 
 /**
  * Tests for the Common Sense Education API endpoints.
