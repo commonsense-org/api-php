@@ -30,7 +30,7 @@ class CommonSenseApiEducationTest extends CommonSenseApiBaseTest
   /**
    * Simple tests run on each content type supported by the API list() call.
    */
-  public function testContentTypesLists()
+  public function testContentTypesItem()
   {
     $this->contentTypeListTest('products');
     $this->contentTypeListTest('blogs');
@@ -38,6 +38,19 @@ class CommonSenseApiEducationTest extends CommonSenseApiBaseTest
     $this->contentTypeListTest('lists');
     $this->contentTypeListTest('user_reviews');
     $this->contentTypeListTest('boards');
+  }
+
+  /**
+   * Simple tests run on each content type supported by the API item() call.
+   */
+  public function testContentTypesLists()
+  {
+    $this->contentTypeItemTest('products');
+    $this->contentTypeItemTest('blogs');
+    $this->contentTypeItemTest('app_flows');
+    $this->contentTypeItemTest('lists');
+    // $this->contentTypeItemTest('user_reviews');
+    $this->contentTypeItemTest('boards');
   }
 
   /**
@@ -49,6 +62,7 @@ class CommonSenseApiEducationTest extends CommonSenseApiBaseTest
    */
   protected function contentTypeListTest($contentType)
   {
+    // Call the list() API.
     $functionName = $contentType . '_list';
     $response = $this->education->{$functionName}();
     $items = $response->response;
@@ -66,6 +80,33 @@ class CommonSenseApiEducationTest extends CommonSenseApiBaseTest
       // Check for valid product types.
       $this->assertContains($item->type, $this->contentTypeMap[$contentType]);
     }
+  }
+
+  /**
+   * Runs simple tests on a content type retrieved from the
+   * API item() calls.
+   *
+   * @param string
+   *   the content type to be tested.
+   */
+  protected function contentTypeItemTest($contentType)
+  {
+    // Get random ID for the content type that was stored in contentTypeListTest().
+    $id_index = array_rand(self::$ids[$contentType]);
+    $id = self::$ids[$contentType][$id_index];
+
+    // Call the item() API.
+    $functionName = $contentType . '_item';
+    $response = $this->education->{$functionName}($id);
+    $item = $response->response;
+
+    $this->assertEquals($response->statusCode, 200);
+
+    // Perform various tests.
+    $this->assertTrue(is_int($item->id));
+
+    // Check for valid product types.
+    $this->assertContains($item->type, $this->contentTypeMap[$contentType]);
   }
 
   /**
