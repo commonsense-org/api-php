@@ -46,8 +46,8 @@ class CommonSenseApi {
    * Handles magic methods for list and item API calls.
    *
    * The following patterns are defined for calling the API list and item calls.
-   *   <type>_list($options)
-   *   <type>_item($id, $options)
+   *   get_<type>_list($options)
+   *   get_<type>_item($id, $options)
    *
    * where <type> is the API endpoint.
    *
@@ -56,21 +56,25 @@ class CommonSenseApi {
    *   Magic methods: products_list($options) and products_item($id, $options)
    */
   public function __call($name, $args) {
-    preg_match('/([a-zA-Z_]+)_([a-zA-Z]+)/', $name, $matches);
-    $suffix = $matches[count($matches) - 1];
+    preg_match('/get_([a-zA-Z_]+)_([a-zA-Z]+)/', $name, $matches);
 
-    if ($suffix === 'list') {
-      // Methods that have a suffix of _list().
+    if (count($matches) > 0) {
       $type = $matches[1];
-      $options = count($args) > 0 && $args[0] ? $args[0] : array();
-      return $this->get_list($type, $options);
-    }
-    elseif ($suffix === 'item') {
-      // Methods that have a suffix of _item().
-      $type = $matches[1];
-      $id = array_shift($args);
-      $options = count($args) > 0 && $args[0] ? $args[0] : array();
-      return $this->get_item($type, $id, $options);
+      $suffix = $matches[count($matches) - 1];
+
+      if ($suffix === 'list') {
+        // Methods that have a suffix of _list().
+        $type = $matches[1];
+        $options = count($args) > 0 && $args[0] ? $args[0] : array();
+        return $this->get_list($type, $options);
+      }
+      elseif ($suffix === 'item') {
+        // Methods that have a suffix of _item().
+        $type = $matches[1];
+        $id = array_shift($args);
+        $options = count($args) > 0 && $args[0] ? $args[0] : array();
+        return $this->get_item($type, $id, $options);
+      }
     }
     elseif (method_exists($this, $name)) {
       // Call the existing method.
@@ -159,7 +163,7 @@ class CommonSenseApi {
    * @param array
    *   filter options that the Common Sense API supports.
    * @return object
-   *   the API response data converted to an object
+   *   the API response data converted to an object.
    */
   public function get_item($endpoint, $id, $options = array()) {
     $path = 'v' . $this->version . '/' . $this->platform . '/' . $endpoint . '/' . $id;

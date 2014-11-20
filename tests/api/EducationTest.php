@@ -63,7 +63,7 @@ class CommonSenseApiEducationTest extends CommonSenseApiBaseTest
   protected function contentTypeListTest($contentType)
   {
     // Call the list() API.
-    $functionName = $contentType . '_list';
+    $functionName = 'get_' . $contentType . '_list';
     $response = $this->education->{$functionName}();
     $items = $response->response;
 
@@ -96,7 +96,7 @@ class CommonSenseApiEducationTest extends CommonSenseApiBaseTest
     $id = self::$ids[$contentType][$id_index];
 
     // Call the item() API.
-    $functionName = $contentType . '_item';
+    $functionName = 'get_' . $contentType . '_item';
     $response = $this->education->{$functionName}($id);
     $item = $response->response;
 
@@ -110,7 +110,7 @@ class CommonSenseApiEducationTest extends CommonSenseApiBaseTest
   }
 
   /**
-   * Tests for products_item().
+   * Tests for get_products_item().
    */
   public function testProduct()
   {
@@ -119,7 +119,7 @@ class CommonSenseApiEducationTest extends CommonSenseApiBaseTest
     $id = self::$ids['products'][$random_key];
 
     // Get the product.
-    $response = $this->education->products_item($id);
+    $response = $this->education->get_products_item($id);
     $this->assertEquals($response->statusCode, 200);
     $this->assertInstanceOf('StdClass', $response->response);
   }

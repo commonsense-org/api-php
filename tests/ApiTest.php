@@ -41,6 +41,28 @@ class CommonSenseApiTest extends CommonSenseApiBaseTest
   }
 
   /**
+   * Tests for __call().
+   */
+  public function testCall()
+  {
+    // Use stub class for testing.
+    $testStub = new CommonSenseApiTestStub($this->client_id, $this->app_id);
+    $this->assertEquals($testStub->get_foo_bar_list(), 'function_get_foo_bar_list');
+    $this->assertEquals($testStub->get_foo_bar_item(), 'function_get_foo_bar_item');
+    $this->assertEquals($testStub->foo_bar(), 'function_foo_bar');
+
+    // Test with Education API.
+    $response = $testStub->get_blogs_list();
+    $this->assertEquals($response->statusCode, 200);
+    $this->assertGreaterThan(0, $response->count);
+
+    // Check that it got a list of blogs.
+    foreach ($response->response as $blog) {
+      $this->assertEquals('blog', $blog->type);
+    }
+  }
+
+  /**
    * Tests for request().
    */
   public function testRequestNoOptions()
@@ -150,5 +172,26 @@ class CommonSenseApiTest extends CommonSenseApiBaseTest
       $this->assertTrue(is_int($product->id));
       $this->assertNotEmpty($product->title);
     }
+  }
+}
+
+// Stub out a test class.
+class CommonSenseApiTestStub extends CommonSenseApi {
+  protected $version = 3;
+  protected $platform = CommonSenseApi::PLATFORM_EDUCATION;
+
+  public function get_foo_bar_list()
+  {
+    return 'function_' . __FUNCTION__;
+  }
+
+  public function get_foo_bar_item()
+  {
+    return 'function_' . __FUNCTION__;
+  }
+
+  public function foo_bar()
+  {
+    return 'function_' . __FUNCTION__;
   }
 }
