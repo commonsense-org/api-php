@@ -74,13 +74,27 @@ class CommonSenseApiTest extends CommonSenseApiBaseTest
     $this->assertGreaterThan(0, count($response->response));
   }
 
-  public function testRequestSetLimit()
+  public function testRequestSetLimitFields()
   {
+    $options = array(
+      'limit' => 3,
+      'fields' => array('id', 'title', 'status'),
+    );
+
     // Make a request overriding the default options.
-    $response = $this->api->request('v3/education/products', array('limit' => 3));
+    $response = $this->api->request('v3/education/products', $options);
+    $products = $response->response;
+
     $this->assertEquals($response->statusCode, 200);
     $this->assertGreaterThan(0, $response->count);
-    $this->assertEquals(3, count($response->response));
+    $this->assertEquals($options['limit'], count($products));
+
+    // Check that only the fields requested were returned.
+    foreach ($products as $product) {
+      foreach ($product as $key => $value) {
+        $this->assertTrue(in_array($key, $options['fields']));
+      }
+    }
   }
 
   public function testRequestPagenation()

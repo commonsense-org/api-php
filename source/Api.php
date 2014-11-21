@@ -117,6 +117,11 @@ class CommonSenseApi {
       'appId' => $this->app_id,
     );
 
+    // Convert fields to a comma delimited string.
+    if (isset($options['fields'])) {
+      $options['fields'] = implode(',', $options['fields']);
+    }
+
     // Override default parameters.
     $params = array_merge($params, $options);
 
