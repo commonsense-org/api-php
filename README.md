@@ -1,7 +1,7 @@
 Common Sense API PHP Driver
 ===========================
 
-PHP driver to connect to the Common Sense REST API.  Direct calls to the REST API are abstracted out by the driver.  The REST API documentation can be found at: [https://github.com/commonsense-org/api-documentation](https://github.com/commonsense-org/api-documentation) 
+PHP driver to connect to the Common Sense REST API.  Direct calls to the REST API are abstracted out by the driver.  The REST API documentation can be found at: [https://github.com/commonsense-org/api-documentation](https://github.com/commonsense-org/api-documentation)
 
 ## Getting Started
 
@@ -20,7 +20,7 @@ echo $response->statusCode;
 // For list calls, the total record count.
 echo $response->count;
 
-// The data set.  In this case, an array of product data objects. 
+// The data set.  In this case, an array of product data objects.
 $products = $response->response;
 
 foreach($products as $product) {
@@ -88,7 +88,7 @@ Get a Graphite rated product, which includes meta-data of the product along with
 
 #### Arguments
 
-* `id` integer - The system ID of the product.
+* `id` integer - The system ID of a product.
 	* default: 1
 * `options` object - Filter/sort option with the following keys:
 	* `fields` array - A list of data fields to be returned.
@@ -96,24 +96,135 @@ Get a Graphite rated product, which includes meta-data of the product along with
 
 ## #get_user_reviews_list([options])
 
+Get a list of Graphite product user reviews (Field Notes).
+
+#### Arguments
+
+* `options` object - Filter/sort option with the following keys:
+	* `page` integer - The page offset of the data set.
+		* default: 1
+	* `limit` integer - The number of records to return per page.
+		* default: 10
+	* `fields` array - A list of data fields to be returned.
+		* default: *all data fields*
+
 ## #get_user_reviews_item(id, [options])
+
+Get a Graphite product user reviews (Field Notes).
+
+#### Arguments
+
+* `id` integer - The system ID of a user review.
+	* default: 1
+* `options` object - Filter/sort option with the following keys:
+	* `fields` array - A list of data fields to be returned.
+		* default: *all data fields*
 
 ## #get_app_flows_list([options])
 
+Get a list of user App Flow lesson plans.
+
+#### Arguments
+
+* `options` object - Filter/sort option with the following keys:
+	* `page` integer - The page offset of the data set.
+		* default: 1
+	* `limit` integer - The number of records to return per page.
+		* default: 10
+	* `fields` array - A list of data fields to be returned.
+		* default: *all data fields*
+
 ## #get_app_flows_item(id, [options])
+
+Get a user App Flow lesson plan.
+
+#### Arguments
+
+* `id` integer - The system ID of an App Flow.
+	* default: 1
+* `options` object - Filter/sort option with the following keys:
+	* `fields` array - A list of data fields to be returned.
+		* default: *all data fields*
+
 
 ## #get_lists_list([options])
 
+Get a list of Graphite's editorial team's top pick lists.
+
+#### Arguments
+
+* `options` object - Filter/sort option with the following keys:
+	* `page` integer - The page offset of the data set.
+		* default: 1
+	* `limit` integer - The number of records to return per page.
+		* default: 10
+	* `fields` array - A list of data fields to be returned.
+		* default: *all data fields*
+
 ## #get_lists_item(id, [options])
+
+Get a Graphite editorial team's top pick list.
+
+#### Arguments
+
+* `id` integer - The system ID of a top pick list.
+	* default: 1
+* `options` object - Filter/sort option with the following keys:
+	* `fields` array - A list of data fields to be returned.
+		* default: *all data fields*
 
 ## #get_boards_list([options])
 
+Get a list of user Boards.
+
+#### Arguments
+
+* `options` object - Filter/sort option with the following keys:
+	* `page` integer - The page offset of the data set.
+		* default: 1
+	* `limit` integer - The number of records to return per page.
+		* default: 10
+	* `fields` array - A list of data fields to be returned.
+		* default: *all data fields*
+
 ## #get_boards_item(id, [options])
+
+Get a user Board.
+
+#### Arguments
+
+* `id` integer - The system ID of a board.
+	* default: 1
+* `options` object - Filter/sort option with the following keys:
+	* `fields` array - A list of data fields to be returned.
+		* default: *all data fields*
 
 
 ## #get_blogs_list([options])
 
+Get a list of Graphite's editorial team's blog posts.
+
+#### Arguments
+
+* `options` object - Filter/sort option with the following keys:
+	* `page` integer - The page offset of the data set.
+		* default: 1
+	* `limit` integer - The number of records to return per page.
+		* default: 10
+	* `fields` array - A list of data fields to be returned.
+		* default: *all data fields*
+
 ## #get_blogs_item(id, [options])
+
+Get a Graphite editorial team's blog post.
+
+#### Arguments
+
+* `id` integer - The system ID of a blog post.
+	* default: 1
+* `options` object - Filter/sort option with the following keys:
+	* `fields` array - A list of data fields to be returned.
+		* default: *all data fields*
 
 * * *
 

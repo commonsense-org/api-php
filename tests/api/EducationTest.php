@@ -49,7 +49,7 @@ class CommonSenseApiEducationTest extends CommonSenseApiBaseTest
     $this->contentTypeItemTest('blogs');
     $this->contentTypeItemTest('app_flows');
     $this->contentTypeItemTest('lists');
-    // $this->contentTypeItemTest('user_reviews');
+    $this->contentTypeItemTest('user_reviews');
     $this->contentTypeItemTest('boards');
   }
 
@@ -122,5 +122,36 @@ class CommonSenseApiEducationTest extends CommonSenseApiBaseTest
     $response = $this->education->get_products_item($id);
     $this->assertEquals($response->statusCode, 200);
     $this->assertInstanceOf('StdClass', $response->response);
+  }
+
+  /**
+   * Test for getting a list of taxonomy terms of a given vocabulary.
+   */
+  public function testGetTermsList()
+  {
+    $vocabularies = array(
+      'app_genre',
+      'app_platforms',
+      'app_publishers',
+      'entertainment_product_awards',
+      'pricing_structure',
+      'education_special_needs',
+      'grades',
+      'education_subjects',
+      'education_skills',
+      'tv_genre',
+    );
+
+    foreach ($vocabularies as $vocabulary) {
+      $response = $this->education->get_terms_list($vocabulary);
+
+      $terms = $response->response;
+      foreach ($terms as $term) {
+        $this->assertNotNull($term->parent_id);
+        $this->assertNotNull($term->type);
+        $this->assertNotNull($term->id);
+        $this->assertEquals($term->type, $vocabulary);
+      }
+    }
   }
 }

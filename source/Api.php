@@ -163,7 +163,7 @@ class CommonSenseApi {
    *
    * @param string
    *   the Common Sense endpoint path partial.
-   * @param id
+   * @param int
    *   the system ID of the item.
    * @param array
    *   filter options that the Common Sense API supports.
@@ -180,7 +180,7 @@ class CommonSenseApi {
    *
    * @param string
    *   the Common Sense endpoint path partial.
-   * @param id
+   * @param int
    *   the system ID of the item.
    * @param array
    *   filter options that the Common Sense API supports.
@@ -189,6 +189,21 @@ class CommonSenseApi {
    */
   public function get_list($endpoint, $options = array()) {
     $path = 'v' . $this->version . '/' . $this->platform . '/' . $endpoint;
+    return $this->request($path, $options);
+  }
+
+  /**
+   * Abstract data list fetcher of taxonomy terms.
+   *
+   * @param string
+   *   a vocabulary ID.
+   * @param array
+   *   filter options that the Common Sense API supports.
+   * @return object
+   *   the API response data converted to an object
+   */
+  public function get_terms_list($vocabulary, $options = array()) {
+    $path = 'v' . $this->version . '/' . $this->platform . '/terms/' . $vocabulary;
     return $this->request($path, $options);
   }
 }
