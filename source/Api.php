@@ -204,6 +204,9 @@ class CommonSenseApi {
    */
   public function get_terms_list($vocabulary, $options = array()) {
     $path = 'v' . $this->version . '/' . $this->platform . '/terms/' . $vocabulary;
+
+    $options = array('limit' => 999);
+
     return $this->request($path, $options);
   }
 }
